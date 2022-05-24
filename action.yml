@@ -1,0 +1,25 @@
+name: Telegram text message
+description: Action sends text message to telegram using bot
+inputs:
+  message:
+    description: Text to send
+    required: true
+    default: TODO
+  chat_id:
+    description: Chat id where to send message
+    required: true
+  bot_token:
+    description: Bot from which the message will be sent
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - shell: bash
+      run: |
+        $answer=`curl -X POST \
+          -H 'Content-Type: application/json' \
+          -d '{"chat_id": {$chat_id}, "text": {$message}, "disable_notification": true}' \
+          https://api.telegram.org/bot{$bot_token}/sendMessage` ; \
+        $result=`echo $answer | jq .ok`; \
+        if [ $result -eq 'true' ]; then exit 0 ; else exit 1; fi
+

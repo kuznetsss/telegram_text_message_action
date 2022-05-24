@@ -1,0 +1,12 @@
+on: [push, pull_request]
+
+jobs:
+  test_action:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: kuznetsss/telegram_text_message_action@${{ GITHUB_REF_NAME }}
+        with:
+          message: 'Test message'
+          chat_id: ${{ secrets.CHAT_ID }}
+          bot_token: ${{ secrets.BOT_TOKEN }}
