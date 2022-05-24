@@ -16,10 +16,14 @@ runs:
   steps:
     - shell: bash
       run: |
-        $answer=`curl -X POST \
+        if [ -z `which jq 2>/dev/null` ]; then sudo apt install -y jq ; fi
+    - shell: bash
+      run: |
+        answer=`curl -X POST \
           -H 'Content-Type: application/json' \
-          -d '{"chat_id": {$chat_id}, "text": {$message}, "disable_notification": true}' \
-          https://api.telegram.org/bot{$bot_token}/sendMessage` ; \
-        $result=`echo $answer | jq .ok`; \
-        if [ $result -eq 'true' ]; then exit 0 ; else exit 1; fi
+          -d "{\"chat_id\": \"${{ inputs.chat_id }}\" , \"text\": \"${{ inputs.message }}\" , \"disable_notification\": false}" \
+          "https://api.telegram.org/bot${{ inputs.bot_token }}/sendMessage"` ; \
+        echo ; \
+        result=`echo $answer | jq .ok`; \
+        if [ $result == 'true' ]; then exit 0 ; else exit 1; fi
 
