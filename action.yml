@@ -22,11 +22,12 @@ runs:
         if [ -z `which jq 2>/dev/null` ]; then sudo apt install -y jq ; fi
     - shell: bash
       run: |
+        message=`echo "${{ inputs.message }}" | sed 's/\./\\\\\./g'`; \
         answer=`curl -X POST \
           -H 'Content-Type: application/json' \
           -d "{
             \"chat_id\": \"${{ inputs.chat_id }}\" ,
-            \"text\": \"${{ inputs.message }}\" ,
+            \"text\": \"$message\" ,
             \"parse_mode\": \"MarkdownV2\" ,
             \"disable_notification\": ${{ inputs.disable_notification }}
           }" \
