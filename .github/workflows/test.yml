@@ -5,7 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: kuznetsss/telegram_text_message_action@${GITHUB_REF_NAME}
+      - uses: ./
         with:
           message: 'Test message'
           chat_id: ${{ secrets.CHAT_ID }}
