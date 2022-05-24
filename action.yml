@@ -33,5 +33,11 @@ runs:
           "https://api.telegram.org/bot${{ inputs.bot_token }}/sendMessage"` ; \
         echo ; \
         result=`echo $answer | jq .ok`; \
-        if [ $result == 'true' ]; then exit 0 ; else exit 1; fi
+        if [ $result == 'true' ]; \
+          then exit 0 ; \
+        else \
+          echo Sending failed with description:
+          echo $answer | jq .description; \
+          exit 1; \
+        fi
 
