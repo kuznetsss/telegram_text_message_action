@@ -24,7 +24,12 @@ runs:
       run: |
         answer=`curl -X POST \
           -H 'Content-Type: application/json' \
-          -d "{\"chat_id\": \"${{ inputs.chat_id }}\" , \"text\": \"${{ inputs.message }}\" , \"disable_notification\": ${{ inputs.disable_notification }} }" \
+          -d "{
+            \"chat_id\": \"${{ inputs.chat_id }}\" ,
+            \"text\": \"${{ inputs.message }}\" ,
+            \"parse_mode\": \"MarkdownV2\" ,
+            \"disable_notification\": ${{ inputs.disable_notification }}
+          }" \
           "https://api.telegram.org/bot${{ inputs.bot_token }}/sendMessage"` ; \
         echo ; \
         result=`echo $answer | jq .ok`; \
