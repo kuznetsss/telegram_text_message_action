@@ -4,13 +4,16 @@ inputs:
   message:
     description: Text to send
     required: true
-    default: TODO
   chat_id:
     description: Chat id where to send message
     required: true
   bot_token:
     description: Bot from which the message will be sent
     required: true
+  disable_notification:
+    description: Whether to disable notiffication or not
+    required: false
+    default: 'false'
 runs:
   using: "composite"
   steps:
@@ -21,7 +24,7 @@ runs:
       run: |
         answer=`curl -X POST \
           -H 'Content-Type: application/json' \
-          -d "{\"chat_id\": \"${{ inputs.chat_id }}\" , \"text\": \"${{ inputs.message }}\" , \"disable_notification\": false}" \
+          -d "{\"chat_id\": \"${{ inputs.chat_id }}\" , \"text\": \"${{ inputs.message }}\" , \"disable_notification\": ${{ inputs.disable_notification }} }" \
           "https://api.telegram.org/bot${{ inputs.bot_token }}/sendMessage"` ; \
         echo ; \
         result=`echo $answer | jq .ok`; \
