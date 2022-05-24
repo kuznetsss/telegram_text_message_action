@@ -3,7 +3,6 @@ import requests
 import argparse
 import json
 import sys
-import re
 
 
 def parse_args():
@@ -17,9 +16,15 @@ def parse_args():
     )
     parser.add_argument("-t", "--bot-token", help="Bot token", required=True)
     parser.add_argument(
-        "-d",
+        "-n",
         "--disable-notifications",
         help="Whether to disable notifications or not",
+        type=bool,
+    )
+    parser.add_argument(
+        "-p",
+        "--disable-url-preview",
+        help="Whether to disable url preview or not",
         type=bool,
     )
     return parser.parse_args()
@@ -34,6 +39,7 @@ def main():
         "text": args.message,
         "parse_mode": "Markdown",
         "disable_notifications": args.disable_notifications,
+        "disable_web_page_preview": args.disable_url_preview,
     }
     reply = requests.post(
         url=f"https://api.telegram.org/bot{args.bot_token}/sendMessage", data=data

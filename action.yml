@@ -14,15 +14,17 @@ inputs:
     description: Whether to disable notiffication or not
     required: false
     default: 'false'
+  disable_web_page_preview:
+    description: Whether to disable url preview or not
+    required: false
+    default: 'true'
 runs:
   using: "composite"
   steps:
     - shell: bash
       run: |
-        if [ -z `which jq 2>/dev/null` ]; then sudo apt install -y jq ; fi
-    - shell: bash
-      run: |
         ./send.py -m "${{ inputs.message }}" \
           -c "${{ inputs.chat_id }}" \
           -t "${{ inputs.bot_token }}" \
-          -d "${{ inputs.disable_notification }}"
+          -n "${{ inputs.disable_notification }}" \
+          -p "${{ inputs.disable_web_page_preview }}"
