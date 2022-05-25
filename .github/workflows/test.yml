@@ -9,8 +9,7 @@ jobs:
         with:
           message: |
             *Github workflow*
-
-            Test message from action
-            [${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+            Test message from [action](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+          format: MarkdownV2
           chat_id: ${{ secrets.CHAT_ID }}
           bot_token: ${{ secrets.BOT_TOKEN }}

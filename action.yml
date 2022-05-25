@@ -4,6 +4,10 @@ inputs:
   message:
     description: Text to send
     required: true
+  format:
+    description: Message format, can be '' for plain text, 'MarkdownV2' or 'HTML'
+    default: ''
+    required: false
   chat_id:
     description: Chat id where to send message
     required: true
@@ -24,6 +28,7 @@ runs:
     - shell: bash
       run: |
         ./send.py -m "${{ inputs.message }}" \
+          -f "${{ inputs.format }}" \
           -c "${{ inputs.chat_id }}" \
           -t "${{ inputs.bot_token }}" \
           -n "${{ inputs.disable_notification }}" \

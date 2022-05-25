@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
-import requests
 import argparse
 import json
 import sys
+import requests
 
 
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("-m", "--message", help="Message to send", required=True)
+    parser.add_argument("-f", "--format", help="Message format", required=True)
     parser.add_argument(
         "-c",
         "--chat-id",
@@ -20,27 +21,29 @@ def parse_args():
         "--disable-notifications",
         help="Whether to disable notifications or not",
         type=bool,
+        required=True,
     )
     parser.add_argument(
         "-p",
         "--disable-url-preview",
         help="Whether to disable url preview or not",
         type=bool,
+        required=True,
     )
     return parser.parse_args()
 
 
 def main():
     args = parse_args()
-
     data = {
         "chat_id": args.chat_id,
         # Telegram requires to escape dot symbol
         "text": args.message,
-        "parse_mode": "Markdown",
+        "parse_mode": args.format,
         "disable_notifications": args.disable_notifications,
         "disable_web_page_preview": args.disable_url_preview,
     }
+    print(args.message)
     reply = requests.post(
         url=f"https://api.telegram.org/bot{args.bot_token}/sendMessage", data=data
     )
