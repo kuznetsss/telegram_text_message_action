@@ -27,7 +27,7 @@ runs:
   steps:
     - shell: bash
       run: |
-        send.py -m "${{ inputs.message }}" \
+        ${{ github.action_path }}/send.py -m "${{ inputs.message }}" \
           -f "${{ inputs.format }}" \
           -c "${{ inputs.chat_id }}" \
           -t "${{ inputs.bot_token }}" \
